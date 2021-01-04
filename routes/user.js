@@ -9,41 +9,22 @@ const bcrypt=require('bcryptjs');
 const config = require('../utils/config');
 const User = require('./../helpers/user');
 
-router.post('/login', function(req, res, next) {
-    passport.authenticate('local', { session: false }, function(err, user, info) {
-        if (err) {
-            return next(err);
-        }
-        if (!user) {
-            return res.status(401).send({
-                err: info
-            });
-        }
-        req.logIn(user, { session: false }, function(err) {
-            if (err) {
-                return res.status(500).send({
-                    err: 'Could not log in user'
-                });
-            }
-            let jsonWebToken = jwt.sign(user, config.secret);
-            res.status(200).send({
-                status: 200,
-                message: 'Login Successful',
-                token: jsonWebToken,
-                user: req.user
-            });
-        });
-    })(req, res, next);
-});
-
-router.get('/logout', function(req, res) {
-    req.logout();
+router.post('/login',auth.isLogged,passport.authenticate('local'), function(req, res) {
+   
     res.status(200).send({
-        status: 'Bye!'
+        status: 200,
+        message: 'Login Successful',
+        user: req.user
     });
+
 });
 
+router.get('/logout', auth.isAuth, (req, res) => {
+    req.logout();
+    res.status(200).send({ status: 200, message: "Logged out successfully" });
+  });
 
+/*
 router.put('/changeInfo', function(req,res){
     console.log(req.user);
     User.checkUsername(req.body.username)

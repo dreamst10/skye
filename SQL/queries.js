@@ -19,6 +19,7 @@ let queries = {
   getComments: 'SELECT co.comment_text, co.comment_id, us.user_name, us.user_lastname, co.user_id FROM COMMENTS co INNER JOIN POST pos ON pos.post_id = co.post_id INNER JOIN USERS us ON us.user_id = co.user_id  WHERE co.post_id = $1',
   deleteComment: "DELETE FROM COMMENTS WHERE comment_id= $1",
 
+  addSkill: "INSERT INTO skills (skills_description) VALUES ($1)",
   getSkills: "SELECT * FROM skills",
   getUserSkills: "SELECT us.user_skills_score, sk.skills_description FROM user_skills us INNER JOIN skills sk ON us.skills_id = sk.skills_id WHERE us.user_id=$1",
   getJobSkills: "SELECT j.job_skills_score, sk.skills_description FROM job_skills j INNER JOIN skills sk ON j.skills_id = sk.skills_id WHERE j.job_id=$1",
