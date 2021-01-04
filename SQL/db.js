@@ -1,4 +1,4 @@
-const config = require('../helpers/config');
+const config = require('../utils/config');
 const pgp = require('pg-promise')();
 const db = pgp(config.dbUrl);
 

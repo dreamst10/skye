@@ -1,39 +1,56 @@
-const cors = require('cors');
-const express = require('express');
-const app = express();
-const jwt = require('express-jwt');
-let passport = require('passport');
-let strategies = require('./helpers/strategies');
-let auth = require('./middlewares/isAuth');
-const config = require('./helpers/config');
+const express=require('express');
+const app=express();
+const path=require('path');
+const config=require('./utils/config');
+//const logger=require('morgan');
 
-app.use('/views', express.static(__dirname + '/public'));
+let session=require('express-session');
+let passport = require('passport');
+let cors = require('cors'); 
+
+//app.get('/', (req, res) => res.send('Hello World!'));
+
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(jwt({
-    secret: config.secret,
-    credentialsRequired: false
-}).unless({
-    path: ['/session/login', '/register/createUser', '/']
+app.use(express.urlencoded({extended:false}));
+
+app.use(express.static(path.join(__dirname,'public')));
+
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
-app.options('*', cors());
-app.use(cors());
 
-app.use('/', require('./routes'));
-app.get('/', function(req, res) {
-    res.redirect('views/index.html');
+/*
+app.set('views',path.join(__dirname,'views'));
+app.engine('.hbs', exphbs({extname: '.hbs'}));
+app.set('view engine', '.hbs');
+*/
+
+//app.use(logger('dev'));
+
+app.use(cors({
+	origin: '*',
+	methods: 'POST, PUT, GET, DELETE, OPTIONS',
+	allowedHeaders: 'Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization',
+	credentials: true
+}));
+
+app.use('/',require('./routes/index'));
+
+passport.use(require('./helpers/localStrategy'));
+
+passport.serializeUser((user, done) => {
+	done(null, user);
 });
-app.use(auth.isValidToken);
-passport.use(strategies.localStrategy);
-passport.use(strategies.jwtStrategy);
-passport.serializeUser(function(user, done) {
-    done(null, user);
+
+passport.deserializeUser((user, done) => {
+	done(null, user);
 });
-passport.deserializeUser(function(user, done) {
-    done(null, user);
-});
-app.listen(config.port, function() {
-    console.log('Example app listening on port 3000!');
-});
+
+app.listen(config.port,()=>{
+    console.log('listening on port ' + config.port);
+})

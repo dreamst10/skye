@@ -1,7 +1,7 @@
-const PS = require('pg-promise').PreparedStatement;
 let queries = {
-  newUser: "INSERT INTO users (user_name, user_lastname, user_email, user_password, user_avatar) VALUES ($1,$2,$3,$4,'./public/avatar.jpg')",
+  newUser: "INSERT INTO users (user_name, user_lastname, user_email, user_password) VALUES ($1,$2,$3,$4)",
   getUser: "SELECT * FROM USERS WHERE user_id = $1",
+  checkEmail: "SELECT * FROM users WHERE user_email = $1",
   uploadPicture:"UPDATE USERS SET user_avatar=$1 WHERE user_id=$2",
   checkEmail: "SELECT * FROM users WHERE user_email=$1",
   changePassword: "UPDATE users SET user_password=$1 WHERE user_id=$2",

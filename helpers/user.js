@@ -9,6 +9,25 @@ module.exports.getUserByUsername = (username) => {
                 res(data);
                 obj.done();
             }).catch((error) => {
+//                console.log('que esta pasando');
+                console.log(error);
+                rej(error);
+                obj.done();
+            });
+        }).catch((error) => {
+            console.log(error);
+            rej(error);
+        });
+    });
+}
+
+module.exports.getUser = (id) => {
+    return new Promise((res, rej) => {
+        db.connect().then((obj) => {
+            obj.one(sql.getUser, [id]).then((data) => {
+                res(data);
+                obj.done();
+            }).catch((error) => {
                 console.log('que esta pasando');
                 console.log(error);
                 rej(error);
@@ -21,14 +40,18 @@ module.exports.getUserByUsername = (username) => {
     });
 }
 
-module.exports.checkUsername = (username) => {
+
+module.exports.checkEmail = (email) => {
     return new Promise((res, rej) => {
         db.connect().then((obj) => {
-            obj.none(sql.getUser, [username]).then(() => {
-                res({status:201});
+            obj.oneOrNone(sql.checkEmail, email).then((data) => {
+                res(data);
+                console.log('si')
+                //console.log(obj)
                 obj.done();
             }).catch((error) => {
                 rej(error);
+                console.log('no')
                 obj.done();
             });
         }).catch((error) => {
@@ -48,22 +71,22 @@ module.exports.comparePassword = (candidatePassword, hash) => {
     });
 };
 
-module.exports.registerUser = (username, password, name, lastName, sex, email) => {
+module.exports.register = (name, lastName, email, password) => {
     return new Promise((res, rej) => {
-        db.connect().then((obj) => {
-            obj.none(sql.newUser, [username, password, name, lastName, email, sex])
-                .then(() => {
+        db.connect().then(obj=>{
+            console.log([name, lastName, email, password])
+            obj.none(sql.newUser,[name, lastName, email, password])
+                .then(()=>{
                     res({
-                        message: "OK",
-                        status: 200
+                        status:200,
+                        message:'ok'
                     });
                     obj.done();
-                }).catch((error) => {
+                }).catch((err)=>{
                     rej({
-                        error: error,
-                        msg: 'not Created',
-                        status: 500
-                    });
+                        status:500,
+                        message:'unsuccesful register'
+                    })
                     obj.done();
                 });
         });
@@ -75,7 +98,7 @@ module.exports.updateUserInfo = (username, name, lastname, email, userId) =>{
     return new Promise((res, rej) => {
         db.connect().then((obj) => {
             obj.none(sql.updateInfo, [username, name, lastname, email, userId]).then(() => {
-                res({status:200, message:'updated papi'});
+                res({status:200, message:'updated'});
                 obj.done();
             }).catch((error) => {
                 console.log(error);

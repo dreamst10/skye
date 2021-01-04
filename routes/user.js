@@ -1,10 +1,12 @@
 const express = require('express');
 const passport = require('passport');
-const auth = require('./../middlewares/jwtAuth');
-const jwt = require('jsonwebtoken');
+const auth = require('./../middlewares/isAuth');
+//const jwtAuth = require('./../middlewares/jwtAuth');
+
 //let upload = require('./../helpers/uploads');
 let router = express.Router();
-const config = require('./../helpers/config');
+const bcrypt=require('bcryptjs');
+const config = require('../utils/config');
 const User = require('./../helpers/user');
 
 router.post('/login', function(req, res, next) {
@@ -42,7 +44,7 @@ router.get('/logout', function(req, res) {
 });
 
 
-router.put('/changeInfo', auth, function(req,res){
+router.put('/changeInfo', function(req,res){
     console.log(req.user);
     User.checkUsername(req.body.username)
     .then((data) => {
@@ -85,5 +87,38 @@ router.put('/changeInfo', auth, function(req,res){
         res.send(err);
     })
 });*/
+
+router.post('/register',auth.isLogged,auth.emailRegistered,(req,res)=>{
+    const user = req.body;
+    const salt = bcrypt.genSaltSync(10);
+    if(user.password !== user.confPassword){
+        res.status(401).send({status:401,message:'passwords must match'});
+    }
+    user.password = bcrypt.hashSync(user.password, salt);
+    User.register(user.name,user.lastName,user.email,user.password)
+        .then(data=>{
+
+            res.status(200).send({
+                status:200,
+                message:'registered succesfully',
+                data
+            })
+        })
+        .catch(err=>{
+            res.send(err);
+        });
+    //res.redirect('login');
+});
+
+router.get('/test', (req, res) => {
+    
+        search.searchUser(req.body.id).then((data) => {
+            res.send(data);
+        }).catch((err) => {
+            res.send(err);
+        });
+    
+});
+
 
 module.exports = router;
