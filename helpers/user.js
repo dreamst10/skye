@@ -94,10 +94,11 @@ module.exports.register = (name, lastName, email, password) => {
 };
 
 
-module.exports.updateUserInfo = (username, name, lastname, email, userId) =>{
+module.exports.updateUserInfo = (name, lastname, email, userId) =>{
     return new Promise((res, rej) => {
         db.connect().then((obj) => {
-            obj.none(sql.updateInfo, [username, name, lastname, email, userId]).then(() => {
+            console.log('si llega')
+            obj.any(sql.updateInfo, [name, lastname, email, userId]).then(() => {
                 res({status:200, message:'updated'});
                 obj.done();
             }).catch((error) => {

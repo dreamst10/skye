@@ -62,7 +62,7 @@ module.exports.getUserSkills = (userId)=>{
                     res({
                         status:200,
                         message:'succesful',
-                        dat:data
+                        data
                     });
                     obj.done();
                 }).catch(err=>{
@@ -72,6 +72,27 @@ module.exports.getUserSkills = (userId)=>{
         }).catch(err=>{
             rej(err);
             obj.done();
+        });
+    });
+}
+
+module.exports.deleteUserSkills = (userId)=>{
+    return new Promise((res, rej)=>{
+        db.connect().then((obj)=>{
+            obj.any(sql.deleteUserSkills, [userId])
+                .then(data=>{
+                    res({
+                        status:200,
+                        message:'done',
+                        data
+                    });
+                    obj.done();
+                }).catch(err=>{
+                    rej(err);
+                    obj.done();
+                });
+        }).catch(err=>{
+            rej(err);
         });
     });
 }

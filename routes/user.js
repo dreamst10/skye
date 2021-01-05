@@ -16,6 +16,7 @@ router.post('/login',auth.isLogged,passport.authenticate('local'), function(req,
         message: 'Login Successful',
         user: req.user
     });
+    console.log(req.user);
 
 });
 
@@ -25,38 +26,7 @@ router.get('/logout', auth.isAuth, (req, res) => {
   });
 
 /*
-router.put('/changeInfo', function(req,res){
-    console.log(req.user);
-    User.checkUsername(req.body.username)
-    .then((data) => {
-        if (data.status === 201){
-            User.updateUserInfo(
-            req.body.username,
-            req.body.name,
-            req.body.lastname,
-            req.body.email,
-            req.user.user_id
-        )
-        .then(() => {
-                    let user = {user_id:req.user.user_id,user_username:req.body.username}
-                    req.logIn(user, { session: false }, function(err) {
-                        if (err) {
-                            return res.status(500).send({
-                                err: 'Could not log in user'
-                            });
-                        }
-                        let jsonWebToken = jwt.sign(user, config.secret);
-                        res.status(200).send({
-                            status: 200,
-                            message: 'Login Successful',
-                            token: jsonWebToken
-                        });
-            })}
-    )
-    .catch(err => res.send(err));
-    }
-}).catch(err=>res.send(err));
-});
+
 
 /*router.post('/changeProfilePic/:target', auth, upload.single('file') ,function(req,res){
     let dir = `./public/uploads/${req.user.user_id}/pic/${req.file.filename}`;
@@ -100,6 +70,42 @@ router.get('/test', (req, res) => {
         });
     
 });
+
+router.put('/changeInfo', auth.isAuth,auth.emailRegistered, function(req,res){
+    console.log(req.user);
+    User.checkEmail(req.user.email)
+    .then((data) => {
+        console.log(1);
+        console.log(data);
+        if (data){
+            User.updateUserInfo(
+            req.body.name,
+            req.body.lastname,
+            req.body.email,
+            req.user.id
+        ).then(() => {
+            console.log(2);
+                    let user = {id:req.user.id,email:req.body.email}
+                    req.logIn(user, { session: false }, function(err) {
+                        if (err) {
+                            console.log(3);
+                            return res.status(500).send({
+                                err: 'Could not log in user'
+                            });
+                        }
+                        console.log(4);
+                        console.log(req.user);
+                        res.status(200).send({
+                            status: 200,
+                            message: 'Login Successful',
+                        });
+            })}
+        ).catch(err => res.send(err));
+        }
+    }).catch(err=>res.send(err));
+//    console.log(5);
+});
+
 
 
 module.exports = router;

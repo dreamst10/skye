@@ -1,8 +1,6 @@
 const express = require('express');
-const passport = require('passport');
 const auth = require('./../middlewares/isAuth');
 let router = express.Router();
-const config = require('../utils/config');
 const Skills = require('./../helpers/skills');
 
 router.post('/addUserSkill', auth.isAuth, (req, res)=>{
@@ -18,11 +16,20 @@ router.post('/addUserSkill', auth.isAuth, (req, res)=>{
         });
 });
 
-router.get('/getUserSkills', (req,res)=>{
-    Skills.getUserSkills(req.body.userId)
+router.get('/getUserSkills/:id', auth.isAuth, (req,res)=>{
+    Skills.getUserSkills(req.params.id)
         .then(data=>{
             console.log(data);
             res.status(200).send(data);
+        }).catch(err=>{
+            res.send(err);
+        });
+});
+
+router.delete('/deleteUserSkills',auth.isAuth,(req,res)=>{
+    Skills.deleteUserSkills(req.user.id)
+        .then(data=>{
+            res.send(data);
         }).catch(err=>{
             res.send(err);
         });
