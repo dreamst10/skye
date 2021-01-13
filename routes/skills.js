@@ -35,6 +35,39 @@ router.delete('/deleteUserSkills',auth.isAuth,(req,res)=>{
         });
 });
 
+router.post('/addJobSkill/:id', auth.isAuth, (req, res)=>{
+    Skills.addjobSkill(req.body.score, req.body.id, req.params.id)
+        .then(data=>{
+            res.send({
+                status:200,
+                message:'succesful',
+                data
+            });
+        }).catch(err=>{
+            res.send(err);
+        });
+});
+
+router.get('/getJobSkills/:id', auth.isAuth, (req,res)=>{
+    Skills.getJobSkills(req.params.id)
+        .then(data=>{
+            console.log(data);
+            res.status(200).send(data);
+        }).catch(err=>{
+            res.send(err);
+        });
+});
+
+router.delete('/deleteJobSkills/:id',auth.isAuth,(req,res)=>{
+    Skills.deleteJobSkills(req.params.id)
+        .then(data=>{
+            res.send(data);
+        }).catch(err=>{
+            res.send(err);
+        });
+});
+
+
 //for manually filling DB with skills
 router.post('/addSkill', (req,res)=>{
     Skills.addSkill(req.body.skillName)

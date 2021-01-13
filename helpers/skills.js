@@ -115,6 +115,27 @@ module.exports.getJobSkills = (JobId)=>{
     });
 }
 
+module.exports.deleteJobSkills = (jobId)=>{
+    return new Promise((res, rej)=>{
+        db.connect().then((obj)=>{
+            obj.any(sql.deleteJobSkills, [jobId])
+                .then(data=>{
+                    res({
+                        status:200,
+                        message:'done',
+                        data
+                    });
+                    obj.done();
+                }).catch(err=>{
+                    rej(err);
+                    obj.done();
+                });
+        }).catch(err=>{
+            rej(err);
+        });
+    });
+}
+
 //for manually filling DB skills table
 module.exports.addSkill = (skillName)=>{
     return new Promise((res,rej)=>{

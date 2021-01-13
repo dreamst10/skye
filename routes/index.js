@@ -4,10 +4,9 @@ let router = express.Router();
 
 router.use('/user', require('./user'));
 router.use('/skills', require('./skills'));
-//router.use('/register', require('./register'));
-//router.use('/jobs', require('./jobs'));
+router.use('/jobs', require('./jobs'));
 //router.use('/search', require('./search'));
-//router.use('/friend', require('./friend'));
+
 
 router.get('/', (req, res) => {
     if(req.isAuthenticated()){

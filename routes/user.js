@@ -8,6 +8,7 @@ let router = express.Router();
 const bcrypt=require('bcryptjs');
 const config = require('../utils/config');
 const User = require('./../helpers/user');
+const Jobs = require('../helpers/jobs')
 
 router.post('/login',auth.isLogged,passport.authenticate('local'), function(req, res) {
    
@@ -106,6 +107,21 @@ router.put('/changeInfo', auth.isAuth,auth.emailRegistered, function(req,res){
 //    console.log(5);
 });
 
+router.get('/getUserJobs/:id',auth.isAuth,(req,res)=>{
+    Jobs.getUserJobs(req.params.id).then(data=>{
+        res.send(data);
+    }).catch(err=>{
+        res.send(err);
+    })
+});
+
+router.get('/getUserApplications/',auth.isAuth,(req,res)=>{
+    Jobs.getUserApplications(req.user.id).then(data=>{
+        res.send(data);
+    }).catch(err=>{
+        res.send(err);
+    })
+});
 
 
 module.exports = router;
