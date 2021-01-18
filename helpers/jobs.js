@@ -24,7 +24,7 @@ module.exports.getJobApplications = (jobId) =>{
     });
 };
 
-module.export.sendApplication = (jobId,userId)=>{
+module.exports.sendApplication = (jobId,userId)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
             obj.none(sql.sendApplication,[jobId,userId]).then(()=>{
@@ -43,7 +43,7 @@ module.export.sendApplication = (jobId,userId)=>{
     });
 };
 
-module.export.deleteApplication = (appId,userId)=>{
+module.exports.deleteApplication = (appId,userId)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
             obj.none(sql.deleteApplication,[appId,userId]).then(()=>{
@@ -62,7 +62,7 @@ module.export.deleteApplication = (appId,userId)=>{
     });
 };
 
-module.export.checkApplication = (jobId,userId)=>{
+module.exports.checkApplication = (jobId,userId)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
             obj.oneOrNone(sql.checkApplication,[jobId,userId]).then(data=>{
