@@ -42,6 +42,7 @@ module.exports.getUser = (id) => {
 
 
 module.exports.checkEmail = (email) => {
+    console.log(email)
     return new Promise((res, rej) => {
         db.connect().then((obj) => {
             obj.oneOrNone(sql.checkEmail, email).then((data) => {

@@ -24,7 +24,9 @@ module.exports.isLogged = (req, res, next) => {
 
 //Verifies that the sent email is not registered in db
 module.exports.emailRegistered = (req, res, next) => {
-  const email = req.body.email;
+  const email = req.body.user.email;
+  console.log(req.body)
+  console.log(req.body.user)
   User.checkEmail(email).then(data => {
     if(!data)
       next();

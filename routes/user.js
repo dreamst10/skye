@@ -41,10 +41,11 @@ router.get('/logout', auth.isAuth, (req, res) => {
 });*/
 
 router.post('/register',auth.isLogged,auth.emailRegistered,(req,res)=>{
-    const user = req.body;
+    const user = req.body.user;
+    console.log(user)
     const salt = bcrypt.genSaltSync(10);
     if(user.password !== user.confPassword){
-        res.status(401).send({status:401,message:'passwords must match'});
+        return res.status(401).send({status:401,message:'passwords must match'});
     }
     user.password = bcrypt.hashSync(user.password, salt);
     User.register(user.name,user.lastName,user.email,user.password)
