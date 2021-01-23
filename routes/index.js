@@ -9,11 +9,7 @@ router.use('/jobs', require('./jobs'));
 
 
 router.get('/', (req, res) => {
-    if(req.isAuthenticated()){
-        res.redirect('/index');
-    }else{
-        res.redirect('/login');
-    }
+    console.log(req.user)
 });
 
 router.get('/index',(req,res)=>{

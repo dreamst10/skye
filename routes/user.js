@@ -11,7 +11,7 @@ const User = require('./../helpers/user');
 const Jobs = require('../helpers/jobs')
 
 router.post('/login',auth.isLogged,passport.authenticate('local'), function(req, res) {
-   
+   console.log(req.user)
     res.status(200).send({
         status: 200,
         message: 'Login Successful',

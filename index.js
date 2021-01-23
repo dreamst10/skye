@@ -33,6 +33,7 @@ app.set('view engine', '.hbs');
 //app.use(logger('dev'));
 
 app.use(cors({
+	allow: 'localhost:3000',
 	origin: '*',
 	methods: 'POST, PUT, GET, DELETE, OPTIONS',
 	allowedHeaders: 'Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization',

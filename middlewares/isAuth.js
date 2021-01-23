@@ -12,6 +12,7 @@ module.exports.isAuth = (req, res, next) => {
 };
 
 module.exports.isLogged = (req, res, next) => {
+  console.log(req.body)
     if(req.isAuthenticated()) {
     res.status(403).send({
       status: 403,

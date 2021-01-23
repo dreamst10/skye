@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react'
 
 export class LoginForm extends Component {
@@ -6,7 +7,8 @@ export class LoginForm extends Component {
     
         this.state = {
              email:'',
-             password:''
+             password:'',
+             user:null
         };
 
         
@@ -21,8 +23,29 @@ export class LoginForm extends Component {
 
     
       handleSubmit = (event) => {
-        alert('submitted: ' + this.state.email + ', ' + this.state.password);
         event.preventDefault();
+        const data={
+            email:this.state.email,
+            password:this.state.password
+        }
+        axios.post('http://localhost:3001/user/login', data )
+        .then(res=>{
+            console.log(res);
+            console.log(res.data);
+            alert(res.data.message);
+            this.setState({user:res.data.user});
+            console.log(this.state.user)
+            axios.get('http://localhost:3001/',{withCredentials:'true'})
+            .then(res=>{
+                console.log(res);
+                console.log(res.data);
+
+            })
+            //this.props.history.push('/home');
+        }).catch(err=>{
+            console.error(err);
+            alert('wrong email or password')
+        });
       }
     
     render() {

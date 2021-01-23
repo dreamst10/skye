@@ -38,10 +38,10 @@ class RegisterForm extends Component {
               console.log(res);
               console.log(res.data);
               alert(res.data.message);
+              this.props.history.push('/login');
           }).catch(err=>{
               console.error(err);
-          })
-        this.props.history.push('/login');
+          });
         
       }
 
