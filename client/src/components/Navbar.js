@@ -1,9 +1,10 @@
 import React from 'react'
 
-const Navbar = ({title}) => {
+const Navbar = ({title, logout}) => {
     return (
         <div classname='Navbar' style={styles}>
             <h1>{title}</h1>
+            <button onClick={logout} >logout</button>
         </div>
     )
 }

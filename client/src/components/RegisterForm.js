@@ -24,7 +24,9 @@ class RegisterForm extends Component {
 
     
       handleSubmit = (event) => {
-        event.preventDefault();  
+          
+        event.preventDefault(); 
+        this.props.handleChange(); 
           const user={
               name: this.state.name,
               lastName: this.state.lastName,

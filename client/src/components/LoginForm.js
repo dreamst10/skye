@@ -24,6 +24,7 @@ export class LoginForm extends Component {
     
       handleSubmit = (event) => {
         event.preventDefault();
+        
         const data={
             email:this.state.email,
             password:this.state.password
@@ -33,9 +34,11 @@ export class LoginForm extends Component {
             console.log(res);
             console.log(res.data);
             alert(res.data.message);
-            this.setState({user:res.data.user});
-            console.log(this.state.user)
-            axios.get('http://localhost:3001/',{withCredentials:'true'})
+            if(res.data.status===200){
+                this.props.handleUser(res.data.user).then(this.props.handleLoggedIn(true))
+            }
+            
+            axios.get('http://localhost:3001/',{withCredentials:'true',headers:{'Content-Type':'application-json'}})
             .then(res=>{
                 console.log(res);
                 console.log(res.data);

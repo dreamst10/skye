@@ -28,6 +28,25 @@ module.exports.addUserSkill = (skillScore, skillId, userId) => {
         })
     })
 }
+module.exports.getSkills= ()=>{
+    return new Promise((res,rej)=>{
+        db.connect().then(obj=>{
+            obj.any(sql.getSkills)
+            .then((data)=>{
+                console.log(data);
+                res({
+                    status:200,
+                    message:'succesful',
+                    data
+                });
+                obj.done();
+            }).catch(err=>{
+                rej(err);
+                obj.done();
+            });
+        })
+    })
+}
 
 module.exports.addjobSkill = (skillScore, skillId, jobId) => {
     return new Promise((res,rej)=>{

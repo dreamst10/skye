@@ -3,8 +3,8 @@ const auth = require('./../middlewares/isAuth');
 let router = express.Router();
 const Skills = require('./../helpers/skills');
 
-router.post('/addUserSkill', auth.isAuth, (req, res)=>{
-    Skills.addUserSkill(req.body.score, req.body.id, req.user.id)
+router.post('/addUserSkill/:id',  (req, res)=>{
+    Skills.addUserSkill(req.body.score, req.body.id, req.params.id)
         .then(data=>{
             res.send({
                 status:200,
@@ -16,7 +16,17 @@ router.post('/addUserSkill', auth.isAuth, (req, res)=>{
         });
 });
 
-router.get('/getUserSkills/:id', auth.isAuth, (req,res)=>{
+router.get('/getSkills',(req, res)=>{
+    Skills.getSkills()
+    .then(data=>{
+        console.log('data goes thru here')
+        res.status(200).send(data);
+    }).catch(err=>{
+        res.send(err)
+    })
+})
+
+router.get('/getUserSkills/:id',  (req,res)=>{
     Skills.getUserSkills(req.params.id)
         .then(data=>{
             console.log(data);
@@ -26,8 +36,8 @@ router.get('/getUserSkills/:id', auth.isAuth, (req,res)=>{
         });
 });
 
-router.delete('/deleteUserSkills',auth.isAuth,(req,res)=>{
-    Skills.deleteUserSkills(req.user.id)
+router.delete('/deleteUserSkills/:id',(req,res)=>{
+    Skills.deleteUserSkills(req.params.id)
         .then(data=>{
             res.send(data);
         }).catch(err=>{
@@ -35,7 +45,7 @@ router.delete('/deleteUserSkills',auth.isAuth,(req,res)=>{
         });
 });
 
-router.post('/addJobSkill/:id', auth.isAuth, (req, res)=>{
+router.post('/addJobSkill/:id',  (req, res)=>{
     Skills.addjobSkill(req.body.score, req.body.id, req.params.id)
         .then(data=>{
             res.send({
@@ -48,7 +58,7 @@ router.post('/addJobSkill/:id', auth.isAuth, (req, res)=>{
         });
 });
 
-router.get('/getJobSkills/:id', auth.isAuth, (req,res)=>{
+router.get('/getJobSkills/:id',  (req,res)=>{
     Skills.getJobSkills(req.params.id)
         .then(data=>{
             console.log(data);
@@ -58,7 +68,7 @@ router.get('/getJobSkills/:id', auth.isAuth, (req,res)=>{
         });
 });
 
-router.delete('/deleteJobSkills/:id',auth.isAuth,(req,res)=>{
+router.delete('/deleteJobSkills/:id',(req,res)=>{
     Skills.deleteJobSkills(req.params.id)
         .then(data=>{
             res.send(data);

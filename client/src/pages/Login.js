@@ -7,7 +7,7 @@ export class Login extends Component {
         return (
             <div>
                 <h1>Login</h1>
-                <LoginForm/>
+                <LoginForm handleUser={this.props.handleUser} handleLoggedIn={this.props.handleLoggedIn} />
                 <p>not registered? <Link to = '/register'>Sign up</Link></p>
             </div>
         )

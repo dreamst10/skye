@@ -19,7 +19,7 @@ let queries = {
 
   addSkill: "INSERT INTO skills (skills_description) VALUES ($1)",
   getSkills: "SELECT * FROM skills",
-  getUserSkills: "SELECT us.user_skills_score, sk.skills_description FROM user_skills us INNER JOIN skills sk ON us.skills_id = sk.skills_id WHERE us.user_id=$1",
+  getUserSkills: "SELECT us.user_skills_score, sk.skills_id, sk.skills_description FROM user_skills us INNER JOIN skills sk ON us.skills_id = sk.skills_id WHERE us.user_id=$1",
   getJobSkills: "SELECT j.job_skills_score, sk.skills_description FROM job_skills j INNER JOIN skills sk ON j.skills_id = sk.skills_id WHERE j.job_id=$1",
   addUserSkill: "INSERT INTO user_skills (user_skills_score, skills_id, user_id) VALUES ($1, $2, $3)",
   deleteUserSkills: "DELETE FROM user_skills WHERE user_id=$1",
