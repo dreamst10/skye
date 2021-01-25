@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link, withRouter } from 'react-router-dom'
 
 
 export class home extends Component {
@@ -11,13 +12,23 @@ export class home extends Component {
         }
     }
 
+    press=()=>{
+        console.log(this.props.user)
+        console.log(this.props.match.params.id)
+    }
+
     render() {
+        
         return (
             <div>
-            nothing here yet       
+                                
+                <Link to={"/"+5}>
+            nothing here yet  
+                </Link>
+                <button onClick={this.press}>hi</button>
             </div>
         )
     }
 }
 
-export default home
+export default withRouter (home)

@@ -12,6 +12,7 @@ let queries = {
   postJob:  "INSERT INTO job (user_id, job_title, job_description) VALUES ($1, $2, $3)",
   deleteJob: "DELETE FROM job WHERE job_id=$1 AND user_id=$2",
   updateJob: "UPDATE job SET job_title=$1,job_description=$2 WHERE job_id=$3 AND user_id=$4",
+  getJobInfo: "SELECT * FROM job WHERE job_id=$1",
 
   searchUser: "SELECT user_id, user_name, user_lastname, user_avatar from users WHERE user_name LIKE $1 OR user_lastname LIKE $1",
   checkPost: 'SELECT user_id FROM post WHERE post_id = $1',

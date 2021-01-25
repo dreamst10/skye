@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import axios from 'axios'
+import '../App.css'
 
 class RegisterForm extends Component {
     constructor(props) {
@@ -47,15 +48,7 @@ class RegisterForm extends Component {
         
       }
 
-      static styles={
-        
-            width: '100%',
-            height: '56px',
-            borderRadius: '4px',
-            position: 'relative',
-            backgroundColor: 'rgba(255,255,255,0.3)',
-          
-      }
+      
       
     render() {
         return (

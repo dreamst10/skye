@@ -22,7 +22,7 @@ router.post('/login',auth.isLogged,passport.authenticate('local'), function(req,
 
 });
 
-router.get('/logout', auth.isAuth, (req, res) => {
+router.get('/logout',  (req, res) => {
     req.logout();
     res.status(200).send({ status: 200, message: "Logged out successfully" });
   });
@@ -74,7 +74,7 @@ router.get('/test', (req, res) => {
     
 });
 
-router.put('/changeInfo', auth.isAuth,auth.emailRegistered, function(req,res){
+router.put('/changeInfo', auth.emailRegistered, function(req,res){
     console.log(req.user);
     User.checkEmail(req.user.email)
     .then((data) => {
@@ -109,7 +109,7 @@ router.put('/changeInfo', auth.isAuth,auth.emailRegistered, function(req,res){
 //    console.log(5);
 });
 
-router.get('/getUserJobs/:id',auth.isAuth,(req,res)=>{
+router.get('/getUserJobs/:id',(req,res)=>{
     Jobs.getUserJobs(req.params.id).then(data=>{
         res.send(data);
     }).catch(err=>{
@@ -117,7 +117,7 @@ router.get('/getUserJobs/:id',auth.isAuth,(req,res)=>{
     })
 });
 
-router.get('/getUserApplications/',auth.isAuth,(req,res)=>{
+router.get('/getUserApplications/',(req,res)=>{
     Jobs.getUserApplications(req.user.id).then(data=>{
         res.send(data);
     }).catch(err=>{

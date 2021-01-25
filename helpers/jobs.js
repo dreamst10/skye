@@ -123,7 +123,7 @@ module.exports.deleteJob = (jobId, userId) =>{
 };
 
 module.exports.updateJob = (jobTitle, jobDesc, jobId, userId) =>{
-    return new Promise((req,res)=>{
+    return new Promise((res,rej)=>{
         db.connect().then(obj=>{
             obj.none(sql.updateJob, [jobTitle, jobDesc, jobId, userId])
                 .then(()=>{
@@ -143,7 +143,7 @@ module.exports.updateJob = (jobTitle, jobDesc, jobId, userId) =>{
 };
 
 module.exports.getUserJobs = (userId) =>{
-    return new Promise((req,res)=>{
+    return new Promise((res,rej)=>{
         db.connect().then(obj=>{
             obj.manyOrNone(sql.getJobs, [userId])
                 .then(data=>{
@@ -161,4 +161,26 @@ module.exports.getUserJobs = (userId) =>{
             rej(err);
         });
     });
+  
 };
+
+module.exports.getJobInfo=(jobId)=>{
+    return new Promise((res,rej)=>{
+        db.connect().then(obj=>{
+            obj.one(sql.getJobInfo, [jobId])
+                .then(data=>{
+                    res({
+                        status:200,
+                        message:'ok',
+                        data
+                    });
+                    obj.done();
+                }).catch(err=>{
+                    rej(err);
+                    obj.done();
+                });
+        }).catch(err=>{
+            rej(err);
+        });
+    })
+}

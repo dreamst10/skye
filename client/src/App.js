@@ -7,6 +7,10 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import SkillsEdit from './pages/SkillsEdit'
 import Home from './pages/home'
+import 'semantic-ui-css/semantic.min.css'
+import { JobEdit } from './pages/JobEdit';
+import { PostJob } from './pages/PostJob';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -66,12 +70,16 @@ class App extends React.Component {
       <Router>
         <React.Fragment>
           {this.state.loggedIn && this.state.user && <Navbar title="Skye" logout={this.handleLogout}/>}
-          <div className="container">
+          <div className="container" >
             <Switch>
               <Route exact path="/" render={!this.state.loggedIn && this.state.user === null ? ()=> <Login handleLoggedIn={this.handleLoggedIn} handleUser={this.handleUser} /> : ()=> <Home />} />
               <Route exact path="/register" render={()=><Register />}/>
+              <Route exact path="/JobEdit/:id" render={(props)=><JobEdit {...props} user={this.state.user} />}/>
+              <Route exact path="/home/:id" render={()=><Home user={this.state.user} />}/>
               <Route exact path="/login" render={!this.state.loggedIn && this.state.user === null ? ()=><Login handleUser={this.handleUser} handleLoggedIn={this.handleLoggedIn} /> : ()=> <Home />} />
-              <Route exact path='/editUserSkills' render={!this.state.loggedIn && this.state.user === null ? ()=> <Login handleLoggedIn={this.handleLoggedIn} handleUser={this.handleUser} /> : ()=><SkillsEdit user={this.state.user} />} />
+              <Route exact path="/editUserSkills" render={!this.state.loggedIn && this.state.user === null ? ()=> <Login handleLoggedIn={this.handleLoggedIn} handleUser={this.handleUser} /> : ()=><SkillsEdit user={this.state.user} />} />
+              
+              <Route exact path="/PostJob" render={()=><PostJob user={this.state.user} />}/>
             </Switch>
             
           </div>
