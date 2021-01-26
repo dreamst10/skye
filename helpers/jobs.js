@@ -85,11 +85,12 @@ module.exports.checkApplication = (jobId,userId)=>{
 module.exports.postJob = (userId, jobTitle, jobDesc) =>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.none(sql.postJob, [userId, jobTitle, jobDesc])
-                .then(()=>{
+            obj.one(sql.postJob, [userId, jobTitle, jobDesc])
+                .then((data)=>{
                     res({
                         status:200,
-                        message:'ok'
+                        message:'ok',
+                        data
                     });
                     obj.done();
                 }).catch(err=>{

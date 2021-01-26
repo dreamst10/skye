@@ -10,6 +10,7 @@ import Home from './pages/home'
 import 'semantic-ui-css/semantic.min.css'
 import { JobEdit } from './pages/JobEdit';
 import { PostJob } from './pages/PostJob';
+import { JobSkillsEdit } from './pages/JobSkillsEdit';
 
 
 class App extends React.Component {
@@ -78,8 +79,8 @@ class App extends React.Component {
               <Route exact path="/home/:id" render={()=><Home user={this.state.user} />}/>
               <Route exact path="/login" render={!this.state.loggedIn && this.state.user === null ? ()=><Login handleUser={this.handleUser} handleLoggedIn={this.handleLoggedIn} /> : ()=> <Home />} />
               <Route exact path="/editUserSkills" render={!this.state.loggedIn && this.state.user === null ? ()=> <Login handleLoggedIn={this.handleLoggedIn} handleUser={this.handleUser} /> : ()=><SkillsEdit user={this.state.user} />} />
-              
-              <Route exact path="/PostJob" render={()=><PostJob user={this.state.user} />}/>
+              <Route exact path="/editJobSkills/:id" render={!this.state.loggedIn && this.state.user === null ? ()=> <Login handleLoggedIn={this.handleLoggedIn} handleUser={this.handleUser} /> : (props)=><JobSkillsEdit {...props} user={this.state.user} />} />
+              <Route exact path="/PostJob" render={(props)=><PostJob {...props} user={this.state.user} />}/>
             </Switch>
             
           </div>

@@ -19,6 +19,12 @@ export class JobForm extends Component {
         this.setState({[name]: event.target.value});
       }
     
+    handleSubmit = (e) =>{
+        e.preventDefault();
+        this.props.submit(this.state)
+    }
+    
+
     render() {
         return (
             <form onSubmit={this.handleSubmit}>

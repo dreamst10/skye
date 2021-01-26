@@ -21,9 +21,9 @@ router.get('/getJobApplications/:jobId',(req,res)=>{
 });
 
 router.post('/sendApplication/:jobId',(req,res)=>{
-    Jobs.checkApplication(req.params.jobId,req.user.id).then(data=>{
+    Jobs.checkApplication(req.params.jobId,req.body.id).then(data=>{
         if(!data.data){
-            Jobs.sendApplication(req.params.jobId,req.user.id).then(data=>{
+            Jobs.sendApplication(req.params.jobId,req.body.id).then(data=>{
                 res.send(data);
             }).catch(err=>{
                 res.send(err);
@@ -37,7 +37,7 @@ router.post('/sendApplication/:jobId',(req,res)=>{
 });
 
 router.delete('/deleteApplication/:id',(req,res)=>{
-    Jobs.deleteApplication(req.params.id,req.user.id).then(data=>{
+    Jobs.deleteApplication(req.params.id,req.body.id).then(data=>{
         res.send(data);
     }).catch(err=>{
         res.send(err);
@@ -45,7 +45,8 @@ router.delete('/deleteApplication/:id',(req,res)=>{
 });
 
 router.post('/postJob',(req,res)=>{
-    Jobs.postJob(req.user.id,req.body.jobTitle,req.body.jobDesc).then(data=>{
+    console.log(req.body);
+    Jobs.postJob(req.body.id,req.body.jobTitle,req.body.jobDesc).then(data=>{
         res.send(data);
     }).catch(err=>{
         res.send(err);
@@ -53,7 +54,7 @@ router.post('/postJob',(req,res)=>{
 });
 
 router.delete('/deleteJob/:jobId',(req,res)=>{
-    Jobs.deleteJob(req.params.jobId,req.user.id).then(data=>{
+    Jobs.deleteJob(req.params.jobId,req.body.id).then(data=>{
         res.send(data);
     }).catch(err=>{
         res.send(err);
@@ -61,7 +62,7 @@ router.delete('/deleteJob/:jobId',(req,res)=>{
 });
 
 router.put('/updateJob/:jobId',(req,res)=>{
-    Jobs.updateJob(req.body.jobTitle,req.body.jobDesc,req.params.jobId,req.user.id).then(data=>{
+    Jobs.updateJob(req.body.jobTitle,req.body.jobDesc,req.params.jobId,req.body.id).then(data=>{
         res.send(data);
     }).catch(err=>{
         res.send(err);

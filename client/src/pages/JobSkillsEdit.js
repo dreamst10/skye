@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Link, withRouter } from 'react-router-dom'
-import '../App.css'
+import axios from 'axios'
 
-export class SkillsEdit extends Component {
+export class JobSkillsEdit extends Component {
+
     constructor(props) {
         super(props)
     
@@ -50,13 +50,13 @@ export class SkillsEdit extends Component {
       }
 
       updateSkills = () =>{
-        axios.delete('http://localhost:3001/skills/deleteUserSkills/'+this.props.user.id)
+        axios.delete('http://localhost:3001/skills/deleteJobSkills/'+this.props.match.params.id)
             .then(res=>{
                 console.log(res)
                 if(res.data.status === 200){
                     this.state.selInputs.map(obj=>{
                         const body = {score:obj.score,id:obj.value}
-                        return axios.post('http://localhost:3001/skills/addUserSkill/'+this.props.user.id, body)
+                        return axios.post('http://localhost:3001/skills/addJobSkill/'+this.props.match.params.id, body)
                             .then(res=>{console.log(res)})
                             .catch(err=>console.error(err))
                     })
@@ -77,16 +77,16 @@ export class SkillsEdit extends Component {
             }).catch(err=>{
                 console.error(err)
             });
-        axios.get('http://localhost:3001/skills/getUserSkills/'+this.props.user.id)
+        axios.get('http://localhost:3001/skills/getJobSkills/'+this.props.match.params.id)
         .then(res=>{
             console.log(res)
             console.log(res.data)
             if(res.data.data){
             res.data.data.map(obj=>{
-                let inputs=this.state.selInputs.concat([{value:obj.skills_id,score:obj.user_skills_score}])
+                let inputs=this.state.selInputs.concat([{value:obj.skills_id,score:obj.job_skills_score}])
                 return this.setState({selInputs:inputs})
             })
-          }
+        }
         })
       }
     
@@ -108,7 +108,7 @@ export class SkillsEdit extends Component {
                     <option value='4' > 4 </option>
                     <option value='5' > 5 </option>
                 </select>
-                <button onClick={this.handleDelete(index)}>X</button><br/>
+                <button onClick={this.handleDelete(index)}>X</button>
               </span>
             ))}
             <button onClick={this.addSelect}>+</button>
@@ -118,4 +118,5 @@ export class SkillsEdit extends Component {
         )
       }
     }
-export default withRouter (SkillsEdit)
+
+export default withRouter (JobSkillsEdit)

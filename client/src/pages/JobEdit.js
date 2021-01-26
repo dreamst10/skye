@@ -34,13 +34,21 @@ export class JobEdit extends Component {
     }
 
     handleSubmit = (data) =>{
-
+        const body ={jobTitle:data.title,jobDesc:data.description,id:this.props.user.id}
+        axios.put('http://localhost:3001/jobs/updateJob/'+this.props.match.params.id,body)
+            .then(res=>{
+                console.log(res);
+            }).catch(err=>{
+                console.error(err);
+            })
+        this.props.history.push('/');
     }
     
     render() {
         return (
             <div className="field">
-                <JobForm submit={this.handleSubmit} jobInfo={this.state.jobInfo} />
+                <h1>Edit job details</h1>
+                {this.state.jobInfo.title && this.state.jobInfo.description && <JobForm submit={this.handleSubmit} jobInfo={this.state.jobInfo} />}
             </div>
         )
     }

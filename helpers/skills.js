@@ -55,13 +55,13 @@ module.exports.addjobSkill = (skillScore, skillId, jobId) => {
             .then(()=>{
                 res({
                     status: 200,
-                    message:ok
+                    message:'ok'
                 });
                 obj.done();
             }).catch((err)=>{
                 rej({
                     status:500,
-                    message:unsuccesful
+                    message:'unsuccesful'
                 })
             })
         }).catch((err)=>{
@@ -121,9 +121,15 @@ module.exports.getJobSkills = (JobId)=>{
         db.connect().then((obj)=>{
             obj.manyOrNone(sql.getJobSkills, [JobId])
                 .then((data)=>{
-                    res.status(200).send(data);
+                    console.log('yes')
+                    res({
+                        status:200,
+                        message:'succesful',
+                        data
+                    });
                     obj.done();
                 }).catch(err=>{
+                    console.log('no')
                     rej(err);
                     obj.done();
                 });
