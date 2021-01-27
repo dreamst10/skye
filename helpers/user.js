@@ -40,6 +40,22 @@ module.exports.getUser = (id) => {
     });
 }
 
+module.exports.searchUser = (query) =>{
+    return new Promise((res,rej)=>{
+        db.connect().then(obj=>{
+            obj.manyOrNone(sql.searchUser, [query]).then(data=>{
+                res(data);
+                obj.done;
+            }).catch(err=>{
+                rej(err);
+                obj.done();
+            });
+        }).catch(err=>{
+            rej(err);
+        });
+    });
+}
+
 
 module.exports.checkEmail = (email) => {
     console.log(email)

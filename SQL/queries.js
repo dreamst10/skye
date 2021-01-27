@@ -14,7 +14,7 @@ let queries = {
   updateJob: "UPDATE job SET job_title=$1,job_description=$2 WHERE job_id=$3 AND user_id=$4",
   getJobInfo: "SELECT * FROM job WHERE job_id=$1",
 
-  searchUser: "SELECT user_id, user_name, user_lastname, user_avatar from users WHERE user_name LIKE $1 OR user_lastname LIKE $1",
+  searchUser: "SELECT user_id, user_name, user_lastname from users WHERE user_name LIKE $1 OR user_lastname LIKE $1",
   checkPost: 'SELECT user_id FROM post WHERE post_id = $1',
 
 

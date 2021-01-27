@@ -11,6 +11,9 @@ import 'semantic-ui-css/semantic.min.css'
 import { JobEdit } from './pages/JobEdit';
 import { PostJob } from './pages/PostJob';
 import { JobSkillsEdit } from './pages/JobSkillsEdit';
+import { Search } from './pages/Search';
+import { Profile } from './pages/Profile';
+import { CheckJobs } from './pages/CheckJobs';
 
 
 class App extends React.Component {
@@ -65,20 +68,26 @@ class App extends React.Component {
     this.handleLoggedIn(false);
   }
 
+  handleSearch = (query) =>{
+    window.location.href='http://localhost:3000/search/'+query;
+  }
+
   render() {
     console.log(this.state.user)
     return (
       <Router>
         <React.Fragment>
-          {this.state.loggedIn && this.state.user && <Navbar title="Skye" logout={this.handleLogout}/>}
+          {this.state.loggedIn && this.state.user && <Navbar title="Skye" search={this.handleSearch} logout={this.handleLogout}/>}
           <div className="container" >
             <Switch>
-              <Route exact path="/" render={!this.state.loggedIn && this.state.user === null ? ()=> <Login handleLoggedIn={this.handleLoggedIn} handleUser={this.handleUser} /> : ()=> <Home />} />
-              <Route exact path="/register" render={()=><Register />}/>
+              <Route exact path="/" render={!this.state.loggedIn && this.state.user === null ? ()=> <Login handleLoggedIn={this.handleLoggedIn} handleUser={this.handleUser} /> : ()=> <Home user={this.state.user}/>} />
+              <Route exact path="/register" render={!this.state.loggedIn && this.state.user === null ? ()=> <Register  /> : ()=><Home/>}/>
               <Route exact path="/JobEdit/:id" render={(props)=><JobEdit {...props} user={this.state.user} />}/>
-              <Route exact path="/home/:id" render={()=><Home user={this.state.user} />}/>
+              <Route exact path="/search/:query" render={(props)=><Search {...props} user={this.state.user} />}/>
+              <Route exact path="/userskills/:id" render={(props)=><Profile {...props} user={this.state.user} />}/>
               <Route exact path="/login" render={!this.state.loggedIn && this.state.user === null ? ()=><Login handleUser={this.handleUser} handleLoggedIn={this.handleLoggedIn} /> : ()=> <Home />} />
               <Route exact path="/editUserSkills" render={!this.state.loggedIn && this.state.user === null ? ()=> <Login handleLoggedIn={this.handleLoggedIn} handleUser={this.handleUser} /> : ()=><SkillsEdit user={this.state.user} />} />
+              <Route exact path="/checkjobs" render={!this.state.loggedIn && this.state.user === null ? ()=> <Login handleLoggedIn={this.handleLoggedIn} handleUser={this.handleUser} /> : (props)=><CheckJobs {...props} user={this.state.user} />} />
               <Route exact path="/editJobSkills/:id" render={!this.state.loggedIn && this.state.user === null ? ()=> <Login handleLoggedIn={this.handleLoggedIn} handleUser={this.handleUser} /> : (props)=><JobSkillsEdit {...props} user={this.state.user} />} />
               <Route exact path="/PostJob" render={(props)=><PostJob {...props} user={this.state.user} />}/>
             </Switch>

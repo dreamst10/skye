@@ -8,7 +8,8 @@ let router = express.Router();
 const bcrypt=require('bcryptjs');
 const config = require('../utils/config');
 const User = require('./../helpers/user');
-const Jobs = require('../helpers/jobs')
+const Jobs = require('../helpers/jobs');
+const { query } = require('../SQL/db');
 
 router.post('/login',auth.isLogged,passport.authenticate('local'), function(req, res) {
    console.log(req.user);
@@ -64,10 +65,14 @@ router.post('/register',auth.isLogged,auth.emailRegistered,(req,res)=>{
     //res.redirect('login');
 });
 
-router.get('/test', (req, res) => {
-    
-        search.searchUser(req.body.id).then((data) => {
-            res.send(data);
+router.get('/search/:query', (req, res) => {
+    console.log(req.params.query)
+        User.searchUser(req.params.query).then((data) => {
+            res.send({
+                status:200,
+                message:'ok',
+                data
+            });
         }).catch((err) => {
             res.send(err);
         });
@@ -109,9 +114,21 @@ router.put('/changeInfo', auth.emailRegistered, function(req,res){
 //    console.log(5);
 });
 
+router.get('/getUserInfo/:id',(req,res)=>{
+    User.getUser(req.params.id).then(data=>{
+        
+    }).catch(err=>{
+        res.send(err);
+    })
+});
+
 router.get('/getUserJobs/:id',(req,res)=>{
     Jobs.getUserJobs(req.params.id).then(data=>{
-        res.send(data);
+        res.send({
+            status:200,
+            message:'ok',
+            data
+        });
     }).catch(err=>{
         res.send(err);
     })

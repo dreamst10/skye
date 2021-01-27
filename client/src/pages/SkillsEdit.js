@@ -93,14 +93,18 @@ export class SkillsEdit extends Component {
       render() {
         return (
           <React.Fragment>
+            <div className="field">
+              <h1>Edit user skills</h1>
             {this.state.selInputs.map((selInput, index) => (
               <span key={index}>
+                <label>select skill:</label>
                 <select
                   onChange={this.handleSkillChange(index)}
                   value={this.state.selInputs[index].value}
                 >
                     {this.state.skillList.map(obj=> <option key={obj.skills_id} value={obj.skills_id}> {obj.skills_description} </option> )}
                 </select>
+                <label>select skill score</label>
                 <select onChange={this.handleScoreChange(index)} value={this.state.selInputs[index].score} >
                     <option value='1' > 1 </option>
                     <option value='2' > 2 </option>
@@ -108,12 +112,13 @@ export class SkillsEdit extends Component {
                     <option value='4' > 4 </option>
                     <option value='5' > 5 </option>
                 </select>
-                <button onClick={this.handleDelete(index)}>X</button><br/>
+                <button onClick={this.handleDelete(index)}>delete skill</button><br/>
               </span>
             ))}
-            <button onClick={this.addSelect}>+</button>
+            <button onClick={this.addSelect}>add skill</button>
             <Link to="/"><button>cancel</button></Link>
             <button onClick={this.updateSkills} >confirm</button>
+            </div>
           </React.Fragment>
         )
       }

@@ -22,10 +22,7 @@ export class home extends Component {
         return (
             <div>
                                 
-                <Link to={"/"+5}>
-            nothing here yet  
-                </Link>
-                <button onClick={this.press}>hi</button>
+            <h1>welcome, {this.props.user.name} </h1>
             </div>
         )
     }
